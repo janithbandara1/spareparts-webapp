@@ -42,17 +42,13 @@ export default async function ItemsPage({
     where.modelId = parseInt(model);
   }
 
-  // Search filter for item name or ID
+  // Search filter for item name or productNumber
   const search = typeof params.search === 'string' ? params.search.trim() : undefined;
   if (search) {
-    if (!isNaN(Number(search))) {
-      where.OR = [
-        { id: Number(search) },
-        { name: { contains: search, mode: 'insensitive' } }
-      ];
-    } else {
-      where.name = { contains: search, mode: 'insensitive' };
-    }
+    where.OR = [
+      { name: { contains: search, mode: 'insensitive' } },
+      { productNumber: { contains: search, mode: 'insensitive' } }
+    ];
   }
 
   const items = await prisma.item.findMany({ 
@@ -66,26 +62,29 @@ export default async function ItemsPage({
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        {/* Search Bar at Top */}
+        <div className="mb-6 px-4">
+          <form method="get" className="flex gap-2">
+            <Input
+              type="text"
+              name="search"
+              placeholder="🔍 Search by name or product number"
+              defaultValue={search ?? ""}
+              className="flex-1 border-2 border-blue-500 focus:border-blue-700 focus:ring-2 focus:ring-blue-200"
+            />
+            <Button type="submit" variant="default">Search</Button>
+          </form>
+        </div>
+
         <div className="flex">
           {/* Filter Sidebar */}
           <aside className="w-64 pr-6">
             <h2 className="text-xl font-semibold mb-4">Filters</h2>
             <form method="get" className="space-y-4">
-              <aside className="w-64 pr-6">
-                <div className="mb-6 p-2 bg-white rounded shadow">
-                  <Input
-                  type="text"
-                  name="search"
-                  placeholder="🔍 Search by name or ID"
-                  defaultValue={search || ""}
-                  className="mb-2 border-2 border-blue-500 focus:border-blue-700 focus:ring-2 focus:ring-blue-200"
-                  />
-                  <Button type="submit" variant="default" className="w-full mt-2">Search</Button>
-                </div>
-              </aside>
+              {search && <input type="hidden" name="search" value={search} />}
               <div>
                 <Label htmlFor="condition">Condition</Label>
-                <Select name="condition" defaultValue={condition || 'all'}>
+                <Select name="condition" defaultValue={condition ?? 'all'}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select condition" />
                   </SelectTrigger>
@@ -101,7 +100,7 @@ export default async function ItemsPage({
               </div>
               <div>
                 <Label htmlFor="brand">Brand</Label>
-                <Select name="brand" defaultValue={brand || 'all'}>
+                <Select name="brand" defaultValue={brand ?? 'all'}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select brand" />
                   </SelectTrigger>
@@ -117,7 +116,7 @@ export default async function ItemsPage({
               </div>
               <div>
                 <Label htmlFor="model">Model</Label>
-                <Select name="model" defaultValue={model || 'all'}>
+                <Select name="model" defaultValue={model ?? 'all'}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select model" />
                   </SelectTrigger>
