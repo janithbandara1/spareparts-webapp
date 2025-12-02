@@ -29,6 +29,10 @@ export default function AdminItemsPage() {
       header: "Name",
     },
     {
+      accessorKey: "productNumber",
+      header: "Product Number",
+    },
+    {
       accessorKey: "description",
       header: "Description",
     },

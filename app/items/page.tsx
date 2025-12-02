@@ -154,6 +154,7 @@ export default async function ItemsPage({
                     <CardHeader>
                       <CardTitle>{item.name}</CardTitle>
                       <CardDescription>{item.description}</CardDescription>
+                      <p className="text-sm text-gray-500 mt-1">Product #: {item.productNumber}</p>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">

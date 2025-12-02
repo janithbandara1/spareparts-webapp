@@ -15,7 +15,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, description, price, imageUrl, condition, brandId, modelId } = body;
+    const { name, description, price, imageUrl, condition, brandId, modelId, productNumber } = body;
 
     const item = await prisma.item.create({
       data: {
@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
         condition,
         brandId,
         modelId,
+        productNumber,
       },
       include: { brand: true, model: true },
     });

@@ -24,6 +24,7 @@ type ItemWithRelations = {
   condition: 'BRAND_NEW' | 'RECONDITIONED' | 'USED' | null;
   brandId: number | null;
   modelId: number | null;
+  productNumber: string;
   brand: Brand | null;
   model: Model | null;
   createdAt: Date;
@@ -41,6 +42,7 @@ interface ItemModalProps {
     condition: 'BRAND_NEW' | 'RECONDITIONED' | 'USED';
     brandId: number | null;
     modelId: number | null;
+    productNumber: string;
   }) => void;
   initialData?: Partial<ItemWithRelations>;
   isEditing: boolean;
@@ -62,6 +64,7 @@ export function ItemModal({
   const [name, setName] = useState(initialData.name || "");
   const [description, setDescription] = useState(initialData.description || "");
   const [price, setPrice] = useState(initialData.price?.toString() || "");
+  const [productNumber, setProductNumber] = useState(initialData.productNumber || "");
   const [imageUrl, setImageUrl] = useState(initialData.imageUrl || "");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -106,6 +109,7 @@ export function ItemModal({
       setName(initialData.name || "");
       setDescription(initialData.description || "");
       setPrice(initialData.price?.toString() || "");
+      setProductNumber(initialData.productNumber || "");
       setImageUrl(initialData.imageUrl || "");
       setCondition((initialData.condition as 'BRAND_NEW' | 'RECONDITIONED' | 'USED') || 'BRAND_NEW');
       setBrandId(initialData.brandId?.toString() || "none");
@@ -131,6 +135,7 @@ export function ItemModal({
       condition,
       brandId: brandId === "none" ? null : parseInt(brandId),
       modelId: modelId === "none" ? null : parseInt(modelId),
+      productNumber,
     });
   };
 
@@ -140,6 +145,7 @@ export function ItemModal({
     setName("");
     setDescription("");
     setPrice("");
+    setProductNumber("");
     setImageUrl("");
     setImageFile(null);
     setCondition('BRAND_NEW');
@@ -177,7 +183,17 @@ export function ItemModal({
           </div>
 
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="productNumber">Product Number</Label>
+            <Input
+              id="productNumber"
+              value={productNumber}
+              onChange={(e) => setProductNumber(e.target.value)}
+              placeholder="e.g., SKU-12345"
+              required
+            />
+          </div>
+
+          <div>
             <Textarea
               id="description"
               value={description}

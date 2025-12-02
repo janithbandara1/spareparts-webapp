@@ -30,7 +30,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const { id } = await params;
     const itemId = parseInt(id);
     const body = await request.json();
-    const { name, description, price, imageUrl, condition, brandId, modelId } = body;
+    const { name, description, price, imageUrl, condition, brandId, modelId, productNumber } = body;
 
     const item = await prisma.item.update({
       where: { id: itemId },
@@ -42,6 +42,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         condition,
         brandId,
         modelId,
+        productNumber,
       },
       include: { brand: true, model: true },
     });
