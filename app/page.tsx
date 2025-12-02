@@ -10,25 +10,53 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Footer from "@/components/footer";
+import { prisma } from "@/lib/prisma";
 
-export default function Home() {
-  const heroImages = [
-    {
-      url: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1200&h=600&fit=crop",
-      title: "Premium Auto Parts",
-      description: "Discover quality spare parts for every vehicle"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200&h=600&fit=crop",
-      title: "Fast & Reliable",
-      description: "Quick delivery to get you back on the road"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=1200&h=600&fit=crop",
-      title: "Expert Support",
-      description: "Professional guidance for all your needs"
-    }
-  ];
+interface HeroSlide {
+  id: number;
+  imageUrl: string;
+  title: string;
+  description: string;
+  order: number;
+}
+
+async function getHeroSlides(): Promise<HeroSlide[]> {
+  try {
+    const slides = await prisma.heroSlide.findMany({
+      orderBy: { order: "asc" },
+    });
+    return slides;
+  } catch (error) {
+    console.error("Error fetching hero slides:", error);
+    // Return default slides if there's an error
+    return [
+      {
+        id: 1,
+        imageUrl: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1200&h=600&fit=crop",
+        title: "Premium Auto Parts",
+        description: "Discover quality spare parts for every vehicle",
+        order: 0
+      },
+      {
+        id: 2,
+        imageUrl: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200&h=600&fit=crop",
+        title: "Fast & Reliable",
+        description: "Quick delivery to get you back on the road",
+        order: 1
+      },
+      {
+        id: 3,
+        imageUrl: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=1200&h=600&fit=crop",
+        title: "Expert Support",
+        description: "Professional guidance for all your needs",
+        order: 2
+      }
+    ];
+  }
+}
+
+export default async function Home() {
+  const heroImages = await getHeroSlides();
 
   return (
     <div className="min-h-screen">
@@ -37,10 +65,10 @@ export default function Home() {
         <Carousel className="w-full" opts={{ loop: true }}>
           <CarouselContent>
             {heroImages.map((image, index) => (
-              <CarouselItem key={index}>
+              <CarouselItem key={image.id}>
                 <div className="relative h-[600px] w-full">
                   <Image
-                    src={image.url}
+                    src={image.imageUrl}
                     alt={image.title}
                     fill
                     className="object-cover"

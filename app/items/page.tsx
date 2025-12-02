@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 const ITEM_CONDITIONS = [
   { value: 'BRAND_NEW', label: 'Brand New' },
@@ -41,6 +42,19 @@ export default async function ItemsPage({
     where.modelId = parseInt(model);
   }
 
+  // Search filter for item name or ID
+  const search = typeof params.search === 'string' ? params.search.trim() : undefined;
+  if (search) {
+    if (!isNaN(Number(search))) {
+      where.OR = [
+        { id: Number(search) },
+        { name: { contains: search, mode: 'insensitive' } }
+      ];
+    } else {
+      where.name = { contains: search, mode: 'insensitive' };
+    }
+  }
+
   const items = await prisma.item.findMany({ 
     where,
     include: {
@@ -57,6 +71,18 @@ export default async function ItemsPage({
           <aside className="w-64 pr-6">
             <h2 className="text-xl font-semibold mb-4">Filters</h2>
             <form method="get" className="space-y-4">
+              <aside className="w-64 pr-6">
+                <div className="mb-6 p-2 bg-white rounded shadow">
+                  <Input
+                  type="text"
+                  name="search"
+                  placeholder="🔍 Search by name or ID"
+                  defaultValue={search || ""}
+                  className="mb-2 border-2 border-blue-500 focus:border-blue-700 focus:ring-2 focus:ring-blue-200"
+                  />
+                  <Button type="submit" variant="default" className="w-full mt-2">Search</Button>
+                </div>
+              </aside>
               <div>
                 <Label htmlFor="condition">Condition</Label>
                 <Select name="condition" defaultValue={condition || 'all'}>
@@ -105,6 +131,7 @@ export default async function ItemsPage({
                   </SelectContent>
                 </Select>
               </div>
+
               <Button type="submit">Apply Filters</Button>
             </form>
           </aside>

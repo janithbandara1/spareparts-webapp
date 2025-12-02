@@ -8,6 +8,7 @@ import {
   LogOut,
   Tag,
   Settings,
+  Image,
 } from "lucide-react";
 import {
   Sidebar,
@@ -55,6 +56,11 @@ const menuItems = [
     title: "Manage Models",
     url: "/admin/models",
     icon: Settings,
+  },
+  {
+    title: "Hero Slides",
+    url: "/admin/hero-slides",
+    icon: Image,
   },
 ];
 
@@ -155,6 +161,8 @@ export default function AdminLayout({
                     ? "Brands"
                     : pathname.startsWith("/admin/models")
                     ? "Models"
+                    : pathname.startsWith("/admin/hero-slides")
+                    ? "Hero Slides"
                     : "Page"}
                 </BreadcrumbPage>
               </BreadcrumbItem>
