@@ -2,16 +2,37 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { prisma } from "@/lib/prisma";
 
-export default function Home() {
+async function getHeroImage() {
+  try {
+    const heroImage = await prisma.heroImage.findFirst({
+      orderBy: { createdAt: 'desc' },
+    });
+    return heroImage || null;
+  } catch (error) {
+    console.error('Error fetching hero image:', error);
+    return null;
+  }
+}
+
+export default async function Home() {
+  // Fetch the latest hero image from database
+  const heroImage = await getHeroImage();
+
+  // Fallback to default image if none exists
+  const imageData = heroImage || {
+    imageUrl: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1200&h=600&fit=crop',
+    altText: 'Premium Auto Parts',
+  };
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative">
         <div className="relative h-[600px] w-full">
           <Image
-            src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1200&h=600&fit=crop"
-            alt="Premium Auto Parts"
+            src={imageData.imageUrl}
+            alt={imageData.altText || "Premium Auto Parts"}
             fill
             className="object-cover"
             priority
