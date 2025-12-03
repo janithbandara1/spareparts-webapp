@@ -5,12 +5,23 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const ITEM_CONDITIONS = [
   { value: 'BRAND_NEW', label: 'Brand New' },
   { value: 'RECONDITIONED', label: 'Reconditioned' },
   { value: 'USED', label: 'Used' },
 ] as const;
+
+const ITEMS_PER_PAGE = 10;
 
 export default async function ItemsPage({
   searchParams,
@@ -21,6 +32,8 @@ export default async function ItemsPage({
   const condition = typeof params.condition === 'string' ? params.condition : undefined;
   const brand = typeof params.brand === 'string' ? params.brand : undefined;
   const model = typeof params.model === 'string' ? params.model : undefined;
+  const page = typeof params.page === 'string' ? parseInt(params.page) : 1;
+  const currentPage = page > 0 ? page : 1;
 
   // Fetch brands and models for filter options
   const brands = await prisma.brand.findMany({ orderBy: { name: 'asc' } });
@@ -41,13 +54,66 @@ export default async function ItemsPage({
     where.modelId = parseInt(model);
   }
 
+  // Get total count for pagination
+  const totalItems = await prisma.item.count({ where });
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
   const items = await prisma.item.findMany({ 
     where,
     include: {
       brand: true,
       model: true,
     },
+    skip: (currentPage - 1) * ITEMS_PER_PAGE,
+    take: ITEMS_PER_PAGE,
+    orderBy: { createdAt: 'desc' },
   });
+
+  // Build query string for pagination links
+  const buildQueryString = (pageNum: number) => {
+    const params = new URLSearchParams();
+    if (condition && condition !== 'all') params.set('condition', condition);
+    if (brand && brand !== 'all') params.set('brand', brand);
+    if (model && model !== 'all') params.set('model', model);
+    params.set('page', pageNum.toString());
+    return `?${params.toString()}`;
+  };
+
+  // Generate page numbers to display
+  const getPageNumbers = () => {
+    const pages: (number | 'ellipsis')[] = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i);
+        }
+        pages.push('ellipsis');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push('ellipsis');
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push('ellipsis');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push('ellipsis');
+        pages.push(totalPages);
+      }
+    }
+    
+    return pages;
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -111,6 +177,11 @@ export default async function ItemsPage({
           {/* Items Grid */}
           <div className="flex-1">
             <div className="px-4 py-6 sm:px-0">
+              {/* Results info */}
+              <div className="mb-4 text-sm text-gray-600">
+                Showing {items.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0} - {Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of {totalItems} items
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {items.map((item) => (
                   <Card key={item.id}>
@@ -130,10 +201,18 @@ export default async function ItemsPage({
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
+                        <p className="text-sm text-gray-600">Product Number: {item.productNumber}</p>
                         <p className="text-base font-semibold">${item.price}</p>
+                        <p className="text-sm text-gray-600">
+                          {item.quantity > 0 ? (
+                            <span className="text-green-600">In Stock ({item.quantity})</span>
+                          ) : (
+                            <span className="text-red-600">Out of Stock</span>
+                          )}
+                        </p>
                       </div>
                       <div className="mt-2">
-                        <Button asChild variant="outline" className="w-full">
+                        <Button asChild variant="outline" className="w-full" disabled={item.quantity === 0}>
                           <Link href={`/items/${item.id}`}>View Details</Link>
                         </Button>
                       </div>
@@ -141,6 +220,42 @@ export default async function ItemsPage({
                   </Card>
                 ))}
               </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-8">
+                  <Pagination>
+                    <PaginationContent>
+                      {currentPage > 1 && (
+                        <PaginationItem>
+                          <PaginationPrevious href={buildQueryString(currentPage - 1)} />
+                        </PaginationItem>
+                      )}
+                      
+                      {getPageNumbers().map((pageNum, index) => (
+                        <PaginationItem key={index}>
+                          {pageNum === 'ellipsis' ? (
+                            <PaginationEllipsis />
+                          ) : (
+                            <PaginationLink 
+                              href={buildQueryString(pageNum)} 
+                              isActive={pageNum === currentPage}
+                            >
+                              {pageNum}
+                            </PaginationLink>
+                          )}
+                        </PaginationItem>
+                      ))}
+                      
+                      {currentPage < totalPages && (
+                        <PaginationItem>
+                          <PaginationNext href={buildQueryString(currentPage + 1)} />
+                        </PaginationItem>
+                      )}
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
             </div>
           </div>
         </div>

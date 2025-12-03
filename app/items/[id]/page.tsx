@@ -78,6 +78,7 @@ export default async function ItemDetailPage({ params }: PageProps) {
               <div>
                 <h2 className="text-xl font-semibold mb-2">Details</h2>
                 <div className="space-y-2">
+                  <p className="text-gray-700"><span className="font-medium">Product Number:</span> {item.productNumber}</p>
                   {item.brand && (
                     <p className="text-gray-700"><span className="font-medium">Brand:</span> {item.brand.name}</p>
                   )}
@@ -92,6 +93,12 @@ export default async function ItemDetailPage({ params }: PageProps) {
                       </Badge>
                     </div>
                   )}
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">Availability:</span>
+                    <Badge variant={item.quantity > 0 ? 'default' : 'destructive'}>
+                      {item.quantity > 0 ? `In Stock (${item.quantity})` : 'Out of Stock'}
+                    </Badge>
+                  </div>
                 </div>
               </div>
 
@@ -100,9 +107,9 @@ export default async function ItemDetailPage({ params }: PageProps) {
               <div className="space-y-4">
                 <h2 className="text-xl font-semibold">Contact Seller</h2>
                 <p className="text-gray-600">Get in touch with the seller for more details or to make a purchase.</p>
-                <Button asChild size="lg" className="w-full sm:w-auto">
+                <Button asChild size="lg" className="w-full sm:w-auto" disabled={item.quantity === 0}>
                   <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                    Contact via WhatsApp
+                    {item.quantity === 0 ? 'Out of Stock' : 'Contact via WhatsApp'}
                   </a>
                 </Button>
               </div>

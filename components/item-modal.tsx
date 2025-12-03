@@ -17,9 +17,11 @@ const ITEM_CONDITIONS = [
 
 type ItemWithRelations = {
   id: number;
+  productNumber: string;
   name: string;
   description: string | null;
   price: number;
+  quantity: number;
   imageUrl: string | null;
   condition: 'BRAND_NEW' | 'RECONDITIONED' | 'USED' | null;
   brandId: number | null;
@@ -34,9 +36,11 @@ interface ItemModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: {
+    productNumber: string;
     name: string;
     description: string;
     price: number;
+    quantity: number;
     imageUrl: string;
     condition: 'BRAND_NEW' | 'RECONDITIONED' | 'USED';
     brandId: number | null;
@@ -59,9 +63,11 @@ export function ItemModal({
   models,
   loading,
 }: ItemModalProps) {
+  const [productNumber, setProductNumber] = useState(initialData.productNumber || "");
   const [name, setName] = useState(initialData.name || "");
   const [description, setDescription] = useState(initialData.description || "");
   const [price, setPrice] = useState(initialData.price?.toString() || "");
+  const [quantity, setQuantity] = useState(initialData.quantity?.toString() || "0");
   const [imageUrl, setImageUrl] = useState(initialData.imageUrl || "");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -103,9 +109,11 @@ export function ItemModal({
 
   useEffect(() => {
     if (isOpen) {
+      setProductNumber(initialData.productNumber || "");
       setName(initialData.name || "");
       setDescription(initialData.description || "");
       setPrice(initialData.price?.toString() || "");
+      setQuantity(initialData.quantity?.toString() || "0");
       setImageUrl(initialData.imageUrl || "");
       setCondition((initialData.condition as 'BRAND_NEW' | 'RECONDITIONED' | 'USED') || 'BRAND_NEW');
       setBrandId(initialData.brandId?.toString() || "none");
@@ -124,9 +132,11 @@ export function ItemModal({
     e.preventDefault();
     
     onSubmit({
+      productNumber,
       name,
       description,
       price: parseFloat(price),
+      quantity: parseInt(quantity),
       imageUrl, // Now contains the Cloudinary URL
       condition,
       brandId: brandId === "none" ? null : parseInt(brandId),
@@ -137,9 +147,11 @@ export function ItemModal({
   const handleClose = () => {
     onClose();
     // Reset form
+    setProductNumber("");
     setName("");
     setDescription("");
     setPrice("");
+    setQuantity("0");
     setImageUrl("");
     setImageFile(null);
     setCondition('BRAND_NEW');
@@ -155,6 +167,16 @@ export function ItemModal({
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
+            <Label htmlFor="productNumber">Product Number</Label>
+            <Input
+              id="productNumber"
+              value={productNumber}
+              onChange={(e) => setProductNumber(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
             <Label htmlFor="name">Name</Label>
             <Input
               id="name"
@@ -164,16 +186,30 @@ export function ItemModal({
             />
           </div>
 
-          <div>
-            <Label htmlFor="price">Price</Label>
-            <Input
-              id="price"
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-              step="0.01"
-            />
+          <div className="flex gap-4">
+            <div className="flex-1">
+              <Label htmlFor="price">Price</Label>
+              <Input
+                id="price"
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                required
+                step="0.01"
+              />
+            </div>
+
+            <div className="flex-1">
+              <Label htmlFor="quantity">Quantity</Label>
+              <Input
+                id="quantity"
+                type="number"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                required
+                min="0"
+              />
+            </div>
           </div>
 
           <div>

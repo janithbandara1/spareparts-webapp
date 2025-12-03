@@ -30,14 +30,16 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const { id } = await params;
     const itemId = parseInt(id);
     const body = await request.json();
-    const { name, description, price, imageUrl, condition, brandId, modelId } = body;
+    const { productNumber, name, description, price, quantity, imageUrl, condition, brandId, modelId } = body;
 
     const item = await prisma.item.update({
       where: { id: itemId },
       data: {
+        productNumber,
         name,
         description,
         price,
+        quantity,
         imageUrl,
         condition,
         brandId,

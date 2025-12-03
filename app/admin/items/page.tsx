@@ -25,6 +25,10 @@ export default function AdminItemsPage() {
       header: "ID",
     },
     {
+      accessorKey: "productNumber",
+      header: "Product Number",
+    },
+    {
       accessorKey: "name",
       header: "Name",
     },
@@ -39,6 +43,10 @@ export default function AdminItemsPage() {
         const price = parseFloat(row.getValue("price"));
         return <div>${price.toFixed(2)}</div>;
       },
+    },
+    {
+      accessorKey: "quantity",
+      header: "Quantity",
     },
     {
       accessorKey: "brand.name",
@@ -131,9 +139,11 @@ export default function AdminItemsPage() {
   };
 
   const handleSubmit = async (data: {
+    productNumber: string;
     name: string;
     description: string;
     price: number;
+    quantity: number;
     imageUrl: string;
     condition: string;
     brandId: number | null;
