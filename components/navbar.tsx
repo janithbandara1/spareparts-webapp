@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,8 +49,14 @@ export default function Navbar() {
                 placeholder="Search by name or product number..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pr-10"
+                className="pr-20"
               />
+              {searchQuery && (
+                <X
+                  className="absolute right-12 h-4 w-4 text-gray-400 cursor-pointer hover:text-gray-600"
+                  onClick={() => setSearchQuery("")}
+                />
+              )}
               <Search 
                 className="absolute right-3 h-4 w-4 text-gray-400 cursor-pointer hover:text-gray-600"
                 onClick={handleSearch}
