@@ -32,6 +32,7 @@ export default async function ItemsPage({
   const condition = typeof params.condition === 'string' ? params.condition : undefined;
   const brand = typeof params.brand === 'string' ? params.brand : undefined;
   const model = typeof params.model === 'string' ? params.model : undefined;
+  const search = typeof params.search === 'string' ? params.search : undefined;
   const page = typeof params.page === 'string' ? parseInt(params.page) : 1;
   const currentPage = page > 0 ? page : 1;
 
@@ -44,6 +45,15 @@ export default async function ItemsPage({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {};
+  
+  // Search by name or product number
+  if (search) {
+    where.OR = [
+      { name: { contains: search, mode: 'insensitive' } },
+      { productNumber: { contains: search, mode: 'insensitive' } },
+    ];
+  }
+  
   if (condition && condition !== 'all') {
     where.condition = condition;
   }
@@ -72,6 +82,7 @@ export default async function ItemsPage({
   // Build query string for pagination links
   const buildQueryString = (pageNum: number) => {
     const params = new URLSearchParams();
+    if (search) params.set('search', search);
     if (condition && condition !== 'all') params.set('condition', condition);
     if (brand && brand !== 'all') params.set('brand', brand);
     if (model && model !== 'all') params.set('model', model);
@@ -179,7 +190,17 @@ export default async function ItemsPage({
             <div className="px-4 py-6 sm:px-0">
               {/* Results info */}
               <div className="mb-4 text-sm text-gray-600">
-                Showing {items.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0} - {Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of {totalItems} items
+                {search && totalItems === 0 ? (
+                  <p>
+                    There are no products that match "<span className="font-semibold">{search}</span>"
+                  </p>
+                ) : search ? (
+                  <p>
+                    Showing {totalItems} {totalItems === 1 ? 'result' : 'results'} for "<span className="font-semibold">{search}</span>"
+                  </p>
+                ) : (
+                  <p>Showing {items.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0} - {Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of {totalItems} items</p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

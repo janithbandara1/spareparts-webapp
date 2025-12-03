@@ -1,7 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -12,7 +16,16 @@ import {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const isAdmin = pathname.startsWith("/admin");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/items?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   if (isAdmin) {
     return null;
@@ -27,6 +40,24 @@ export default function Navbar() {
               spareparts-webapp
             </Link>
           </div>
+          
+          {/* Search Bar */}
+          <form onSubmit={handleSearch} className="flex-1 max-w-md mx-8">
+            <div className="relative flex items-center">
+              <Input
+                type="text"
+                placeholder="Search by name or product number..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pr-10"
+              />
+              <Search 
+                className="absolute right-3 h-4 w-4 text-gray-400 cursor-pointer hover:text-gray-600"
+                onClick={handleSearch}
+              />
+            </div>
+          </form>
+
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
