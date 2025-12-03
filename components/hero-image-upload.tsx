@@ -75,7 +75,7 @@ export function HeroImageUpload() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Hero Image Management</CardTitle>
+        <CardTitle>Image Management</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Preview */}
@@ -119,7 +119,7 @@ export function HeroImageUpload() {
           </div>
         </div>
 
-        {/* Alt Text */}
+        {/* Alt Text 
         <div className="space-y-2">
           <label className="text-sm font-medium">Alt Text</label>
           <Input
@@ -128,7 +128,7 @@ export function HeroImageUpload() {
             onChange={(e) => setAltText(e.target.value)}
             placeholder="Describe the image"
           />
-        </div>
+        </div> */}
 
         {/* Status Messages */}
         {error && (
