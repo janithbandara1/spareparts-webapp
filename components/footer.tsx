@@ -54,10 +54,10 @@ export default function Footer() {
                 Facebook
               </Link>
               <Link href="#" className="text-gray-300 hover:text-white transition-colors">
-                Twitter
+                Instagram
               </Link>
               <Link href="#" className="text-gray-300 hover:text-white transition-colors">
-                Instagram
+                TikTok
               </Link>
             </div>
           </div>
