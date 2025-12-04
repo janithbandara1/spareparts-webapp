@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -20,12 +19,16 @@ export default function Navbar() {
   const isAdmin = pathname.startsWith("/admin");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/items?search=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
+  // Search on each input with debounce
+  useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      if (searchQuery.trim()) {
+        router.push(`/items?search=${encodeURIComponent(searchQuery.trim())}`);
+      }
+    }, 300);
+
+    return () => clearTimeout(debounceTimer);
+  }, [searchQuery, router]);
 
   if (isAdmin) {
     return null;
@@ -42,7 +45,7 @@ export default function Navbar() {
           </div>
           
           {/* Search Bar */}
-          <form onSubmit={handleSearch} className="flex-1 max-w-md mx-8">
+          <div className="flex-1 max-w-md mx-8">
             <div className="relative flex items-center">
               <Input
                 type="text"
@@ -54,15 +57,17 @@ export default function Navbar() {
               {searchQuery && (
                 <X
                   className="absolute right-12 h-4 w-4 text-gray-400 cursor-pointer hover:text-gray-600"
-                  onClick={() => setSearchQuery("")}
+                  onClick={() => {
+                    setSearchQuery("");
+                    router.push("/items");
+                  }}
                 />
               )}
               <Search 
-                className="absolute right-3 h-4 w-4 text-gray-400 cursor-pointer hover:text-gray-600"
-                onClick={handleSearch}
+                className="absolute right-3 h-4 w-4 text-gray-400"
               />
             </div>
-          </form>
+          </div>
 
           <NavigationMenu>
             <NavigationMenuList>
