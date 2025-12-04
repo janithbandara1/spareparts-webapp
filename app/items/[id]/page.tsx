@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import ZoomableImage from "@/components/zoomable-image";
 
 const ITEM_CONDITIONS = [
   { value: 'BRAND_NEW', label: 'Brand New' },
@@ -47,14 +48,11 @@ export default async function ItemDetailPage({ params }: PageProps) {
               {item.imageUrl && (
                 <Card>
                   <CardContent className="p-0">
-                    <div className="relative w-full h-96 lg:h-[500px]">
-                      <Image 
-                        src={item.imageUrl} 
-                        alt={item.name} 
-                        fill
-                        className="object-cover rounded-lg" 
-                      />
-                    </div>
+                    <ZoomableImage
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="w-full h-96 lg:h-[500px]"
+                    />
                   </CardContent>
                 </Card>
               )}
