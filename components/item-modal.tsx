@@ -17,7 +17,7 @@ const ITEM_CONDITIONS = [
 
 type ItemWithRelations = {
   id: number;
-  productNumber: string;
+  partNumber: string;
   name: string;
   description: string | null;
   price: number;
@@ -36,7 +36,7 @@ interface ItemModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: {
-    productNumber: string;
+    partNumber: string;
     name: string;
     description: string;
     price: number;
@@ -63,7 +63,7 @@ export function ItemModal({
   models,
   loading,
 }: ItemModalProps) {
-  const [productNumber, setProductNumber] = useState(initialData.productNumber || "");
+  const [partNumber, setPartNumber] = useState(initialData.partNumber || "");
   const [name, setName] = useState(initialData.name || "");
   const [description, setDescription] = useState(initialData.description || "");
   const [price, setPrice] = useState(initialData.price?.toString() || "");
@@ -109,7 +109,7 @@ export function ItemModal({
 
   useEffect(() => {
     if (isOpen) {
-      setProductNumber(initialData.productNumber || "");
+      setPartNumber(initialData.partNumber || "");
       setName(initialData.name || "");
       setDescription(initialData.description || "");
       setPrice(initialData.price?.toString() || "");
@@ -132,7 +132,7 @@ export function ItemModal({
     e.preventDefault();
     
     onSubmit({
-      productNumber,
+      partNumber,
       name,
       description,
       price: parseFloat(price),
@@ -147,7 +147,7 @@ export function ItemModal({
   const handleClose = () => {
     onClose();
     // Reset form
-    setProductNumber("");
+    setPartNumber("");
     setName("");
     setDescription("");
     setPrice("");
@@ -167,11 +167,11 @@ export function ItemModal({
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label htmlFor="productNumber">Product Number</Label>
+            <Label htmlFor="partNumber">Part Number</Label>
             <Input
-              id="productNumber"
-              value={productNumber}
-              onChange={(e) => setProductNumber(e.target.value)}
+              id="partNumber"
+              value={partNumber}
+              onChange={(e) => setPartNumber(e.target.value)}
               required
             />
           </div>

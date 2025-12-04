@@ -76,7 +76,7 @@ export default async function ItemDetailPage({ params }: PageProps) {
               <div>
                 <h2 className="text-xl font-semibold mb-2">Details</h2>
                 <div className="space-y-2">
-                  <p className="text-gray-700"><span className="font-medium">Product Number:</span> {item.productNumber}</p>
+                  <p className="text-gray-700"><span className="font-medium">Part Number:</span> {item.partNumber}</p>
                   {item.brand && (
                     <p className="text-gray-700"><span className="font-medium">Brand:</span> {item.brand.name}</p>
                   )}

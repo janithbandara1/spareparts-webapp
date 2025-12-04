@@ -46,11 +46,11 @@ export default async function ItemsPage({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {};
   
-  // Search by name or product number
+  // Search by name or part number
   if (search) {
     where.OR = [
       { name: { contains: search, mode: 'insensitive' } },
-      { productNumber: { contains: search, mode: 'insensitive' } },
+      { partNumber: { contains: search, mode: 'insensitive' } },
     ];
   }
   
@@ -222,7 +222,7 @@ export default async function ItemsPage({
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
-                        <p className="text-sm text-gray-600">Product Number: {item.productNumber}</p>
+                        <p className="text-sm text-gray-600">Part Number: {item.partNumber}</p>
                         <p className="text-base font-semibold">${item.price}</p>
                         <p className="text-sm text-gray-600">
                           {item.quantity > 0 ? (
