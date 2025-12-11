@@ -21,14 +21,15 @@ export default function About() {
             <CardHeader>
               <CardTitle className="text-2xl text-blue-600 flex items-center gap-2">
                 Our Story
-                <Badge variant="secondary">Since 2014</Badge>
+                <Badge variant="secondary">Since 2025</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-600 leading-relaxed">
-                Founded with a passion for automotive excellence, HexaDrive has been serving
-                vehicle owners and mechanics for over a decade. We started as a small family business
-                and have grown into a trusted provider of high-quality spare parts across the region.
+                Founded with a passion for automotive excellence, HexaDrive is a new venture
+                dedicated to serving vehicle owners and mechanics with high-quality spare parts.
+                We started as a fresh initiative in 2025, committed to building a trusted provider
+                of premium spare parts across the region through innovation and customer focus.
               </p>
             </CardContent>
           </Card>
