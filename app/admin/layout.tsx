@@ -8,6 +8,7 @@ import {
   LogOut,
   Tag,
   Settings,
+  Image,
 } from "lucide-react";
 import {
   Sidebar,
@@ -40,6 +41,11 @@ const menuItems = [
     title: "Dashboard",
     url: "/admin/dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    title: "Hero Image",
+    url: "/admin/hero-image",
+    icon: Image,
   },
   {
     title: "Manage Items",
@@ -83,7 +89,7 @@ export default function AdminLayout({
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
-                      spareparts-webapp
+                      HexaDrive
                     </span>
                     <span className="truncate text-xs">Admin Panel</span>
                   </div>
@@ -155,6 +161,8 @@ export default function AdminLayout({
                     ? "Brands"
                     : pathname.startsWith("/admin/models")
                     ? "Models"
+                    : pathname.startsWith("/admin/hero-image")
+                    ? "Hero Image"
                     : "Page"}
                 </BreadcrumbPage>
               </BreadcrumbItem>

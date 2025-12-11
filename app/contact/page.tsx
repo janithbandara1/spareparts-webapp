@@ -20,31 +20,13 @@ export default function Contact() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <h3 className="font-semibold">Address</h3>
-                <p className="text-gray-600">
-                  123 Auto Parts Street<br />
-                  Industrial District<br />
-                  City, State 12345
-                </p>
-              </div>
-
-              <div>
                 <h3 className="font-semibold">Phone</h3>
-                <p className="text-gray-600">+1 (555) 123-4567</p>
+                <p className="text-gray-600">0777495052</p>
               </div>
 
               <div>
                 <h3 className="font-semibold">Email</h3>
-                <p className="text-gray-600">info@spareparts-webapp.com</p>
-              </div>
-
-              <div>
-                <h3 className="font-semibold">Business Hours</h3>
-                <p className="text-gray-600">
-                  Monday - Friday: 8:00 AM - 6:00 PM<br />
-                  Saturday: 9:00 AM - 4:00 PM<br />
-                  Sunday: Closed
-                </p>
+                <p className="text-gray-600">spareparts.ash@gmail.com</p>
               </div>
             </CardContent>
           </Card>

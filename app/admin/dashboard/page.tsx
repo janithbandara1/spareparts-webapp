@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
 import { Package, Building, Car } from "lucide-react";
-import { HeroImageUpload } from "@/components/hero-image-upload";
 
 export default async function DashboardPage() {
   const itemCount = await prisma.item.count();
@@ -42,10 +41,6 @@ export default async function DashboardPage() {
             <p className="text-xs text-muted-foreground">Models cataloged</p>
           </CardContent>
         </Card>
-      </div>
-
-      <div className="grid grid-cols-1 gap-6">
-        <HeroImageUpload />
       </div>
     </div>
   );

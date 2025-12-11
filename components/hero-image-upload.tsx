@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { Upload, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 
 export function HeroImageUpload() {
@@ -14,6 +14,23 @@ export function HeroImageUpload() {
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState(false);
   const [preview, setPreview] = useState<string>('');
+
+  useEffect(() => {
+    const fetchCurrentImage = async () => {
+      try {
+        const response = await fetch('/api/hero-image');
+        if (response.ok) {
+          const data = await response.json();
+          setImageUrl(data.imageUrl);
+          setAltText(data.altText);
+        }
+      } catch (err) {
+        console.error('Error fetching current hero image:', err);
+      }
+    };
+
+    fetchCurrentImage();
+  }, []);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -74,13 +91,10 @@ export function HeroImageUpload() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Hero Image Management</CardTitle>
-      </CardHeader>
       <CardContent className="space-y-6">
         {/* Preview */}
         {preview || imageUrl ? (
-          <div className="relative w-full h-64 bg-gray-100 rounded-lg overflow-hidden">
+          <div className="relative w-full aspect-[2/1] bg-gray-100 rounded-lg overflow-hidden">
             <Image
               src={preview || imageUrl}
               alt={altText}
@@ -89,7 +103,7 @@ export function HeroImageUpload() {
             />
           </div>
         ) : (
-          <div className="w-full h-64 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
+          <div className="w-full aspect-[2/1] bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
             <p>Image preview will appear here</p>
           </div>
         )}

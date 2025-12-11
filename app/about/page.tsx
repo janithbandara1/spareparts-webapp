@@ -26,7 +26,7 @@ export default function About() {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600 leading-relaxed">
-                Founded with a passion for automotive excellence, spareparts-webapp has been serving
+                Founded with a passion for automotive excellence, HexaDrive has been serving
                 vehicle owners and mechanics for over a decade. We started as a small family business
                 and have grown into a trusted provider of high-quality spare parts across the region.
               </p>

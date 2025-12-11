@@ -18,7 +18,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold">spareparts-webapp</h3>
+            <h3 className="text-xl font-bold">HexaDrive</h3>
             <p className="text-gray-300">
               Your trusted source for premium auto spare parts. Quality parts, fast delivery, expert support.
             </p>
@@ -40,9 +40,8 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Contact Us</h4>
             <div className="space-y-2 text-gray-300">
-              <p>Email: info@spareparts-webapp.com</p>
-              <p>Phone: (555) 123-4567</p>
-              <p>Address: 123 Auto Parts St, City, State 12345</p>
+              <p>Email: spareparts.ash@gmail.com</p>
+              <p>Phone: 0777495052</p>
             </div>
           </div>
 
@@ -50,13 +49,13 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Follow Us</h4>
             <div className="flex space-x-4">
-              <Link href="#" className="text-gray-300 hover:text-white transition-colors">
+              <Link href="#" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
                 Facebook
               </Link>
-              <Link href="#" className="text-gray-300 hover:text-white transition-colors">
+              <Link href="https://www.instagram.com/hexadrivespare_parts?utm_source=qr&igsh=ZnN6OWJnZDQ4cnVo" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
                 Instagram
               </Link>
-              <Link href="#" className="text-gray-300 hover:text-white transition-colors">
+              <Link href="https://www.tiktok.com/@hexadrive_spare_parts?_r=1&_t=ZS-92094SJlSvR" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
                 TikTok
               </Link>
             </div>
@@ -67,13 +66,13 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-gray-300">
-            © {new Date().getFullYear()} spareparts-webapp. All rights reserved.
+            © {new Date().getFullYear()} HexaDrive. All rights reserved.
           </p>
           <div className="flex space-x-6">
-            <Link href="#" className="text-gray-300 hover:text-white transition-colors text-sm">
+            <Link href="#" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors text-sm">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-gray-300 hover:text-white transition-colors text-sm">
+            <Link href="#" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors text-sm">
               Terms of Service
             </Link>
           </div>
