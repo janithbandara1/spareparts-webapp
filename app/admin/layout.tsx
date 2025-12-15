@@ -125,7 +125,12 @@ export default function AdminLayout({
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <button
-                  onClick={() => {
+                  onClick={async () => {
+                    try {
+                      await fetch("/api/admin/logout", { method: "POST" });
+                    } catch (error) {
+                      console.error("Logout error:", error);
+                    }
                     window.location.href = "/admin";
                   }}
                   className="w-full justify-start"

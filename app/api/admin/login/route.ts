@@ -26,8 +26,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    // For simplicity, just return success. In real app, set session/cookie
-    return NextResponse.json({ success: true });
+    // Create response and set session cookie
+    const response = NextResponse.json({ success: true });
+    
+    // Set a secure session cookie
+    response.cookies.set('admin_session', admin.id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24, // 24 hours
+      path: '/',
+    });
+
+    return response;
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
