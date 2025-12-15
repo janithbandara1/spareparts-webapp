@@ -139,13 +139,13 @@ export default function AdminItemsPage() {
   };
 
   const handleSubmit = async (data: {
-    productNumber: string;
+    partNumber: string;
     name: string;
     description: string;
     price: number;
     quantity: number;
     imageUrl: string;
-    condition: string;
+    condition: 'BRAND_NEW' | 'RECONDITIONED' | 'USED';
     brandId: number | null;
     modelId: number | null;
   }) => {
