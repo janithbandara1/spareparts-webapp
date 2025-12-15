@@ -49,7 +49,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Follow Us</h4>
             <div className="flex space-x-4">
-              <Link href="#" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
+              <Link href="https://www.facebook.com/share/1Ac5Qj89BK/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
                 Facebook
               </Link>
               <Link href="https://www.instagram.com/hexadrivespare_parts?utm_source=qr&igsh=ZnN6OWJnZDQ4cnVo" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
