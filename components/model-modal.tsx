@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Brand } from "../lib/generated/prisma/client";
+import { Brand } from "@prisma/client";
 
 interface ModelModalProps {
   isOpen: boolean;

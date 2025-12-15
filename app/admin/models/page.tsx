@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Model, Brand } from "../../../lib/generated/prisma/client";
+import { Model, Brand } from "@prisma/client";
 
 type ModelWithBrand = Model & {
   brand?: Brand | null;

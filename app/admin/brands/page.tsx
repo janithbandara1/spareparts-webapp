@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Brand } from "../../../lib/generated/prisma/client";
+import { Brand } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { BrandModal } from "@/components/brand-modal";
 import { DataTable } from "@/components/ui/data-table";
