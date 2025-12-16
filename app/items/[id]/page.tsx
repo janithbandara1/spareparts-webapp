@@ -33,7 +33,7 @@ export default async function ItemDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const whatsappMessage = `Hi, I'm interested in the spare part: ${item.name}. Price: $${item.price}. Can you provide more details?`;
+  const whatsappMessage = `Hi, I'm interested in the spare part: ${item.name}. Price: Rs ${item.price}. Can you provide more details?`;
   const whatsappUrl = `https://wa.me/94715757357?text=${encodeURIComponent(whatsappMessage)}`;
 
   const conditionLabel = ITEM_CONDITIONS.find(c => c.value === item.condition)?.label || item.condition;
@@ -67,7 +67,7 @@ export default async function ItemDetailPage({ params }: PageProps) {
                   <p className="text-gray-700 leading-relaxed">{item.description}</p>
                 </div>
                 <div className="mt-4">
-                  <h1 className="text-3xl font-bold">${item.price}</h1>
+                  <h1 className="text-3xl font-bold">Rs {item.price}</h1>
                 </div>
               </div>
 

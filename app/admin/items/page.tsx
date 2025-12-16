@@ -41,7 +41,7 @@ export default function AdminItemsPage() {
       header: "Price",
       cell: ({ row }) => {
         const price = parseFloat(row.getValue("price"));
-        return <div>${price.toFixed(2)}</div>;
+        return <div>Rs {price.toFixed(2)}</div>;
       },
     },
     {

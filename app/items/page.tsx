@@ -223,7 +223,7 @@ export default async function ItemsPage({
                     <CardContent>
                       <div className="space-y-2">
                         <p className="text-sm text-gray-600">Part Number: {item.partNumber}</p>
-                        <p className="text-base font-semibold">${item.price}</p>
+                        <p className="text-base font-semibold">Rs {item.price}</p>
                         <p className="text-sm text-gray-600">
                           {item.quantity > 0 ? (
                             <span className="text-green-600">In Stock ({item.quantity})</span>
