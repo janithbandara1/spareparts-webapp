@@ -51,7 +51,7 @@ export default async function ItemDetailPage({ params }: PageProps) {
                     <ZoomableImage
                       src={item.imageUrl}
                       alt={item.name}
-                      className="w-full h-96 lg:h-[500px]"
+                      className="w-full h-64 sm:h-80 md:h-96 lg:h-[500px]"
                     />
                   </CardContent>
                 </Card>

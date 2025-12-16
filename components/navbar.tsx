@@ -115,24 +115,21 @@ export default function Navbar() {
               <div className="flex flex-col gap-6 mx-2">
                 {/* Mobile Navigation Links */}
                 <nav className="flex flex-col gap-2">
-                  {navLinks.map((link) => {
-                    const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
-                    return (
-                      <Button
-                        key={link.href}
-                        asChild
-                        variant={isActive ? "secondary" : "ghost"}
-                        className="justify-start"
+                  {navLinks.map((link) => (
+                    <Button
+                      key={link.href}
+                      asChild
+                      variant="ghost"
+                      className="justify-start"
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setMobileMenuOpen(false)}
                       >
-                        <Link
-                          href={link.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          {link.label}
-                        </Link>
-                      </Button>
-                    );
-                  })}
+                        {link.label}
+                      </Link>
+                    </Button>
+                  ))}
                 </nav>
               </div>
             </SheetContent>
