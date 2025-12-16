@@ -129,9 +129,9 @@ export default async function ItemsPage({
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
           {/* Filter Sidebar */}
-          <aside className="w-64 pr-6">
+          <aside className="w-full md:w-64 px-4 md:px-0 md:pr-6 mb-6 md:mb-0">
             <h2 className="text-xl font-semibold mb-4">Filters</h2>
             <form method="get" className="space-y-4">
               <div>
