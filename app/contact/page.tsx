@@ -21,7 +21,7 @@ export default function Contact() {
             <CardContent className="space-y-4">
               <div>
                 <h3 className="font-semibold">Phone</h3>
-                <p className="text-gray-600">0715757357</p>
+                <p className="text-gray-600">0717647676</p>
               </div>
 
               <div>
